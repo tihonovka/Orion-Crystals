@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="C:\Users\andra\Desktop\Kristály Fukarság\PC\main.css">
+    <script src="C:\Users\andra\Desktop\Kristály Fukarság\PC\script.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+AU+QLD:wght@100..400&display=swap" rel="stylesheet">
+    <title>Orion Crystals</title>
+</head>
+<body>
+    <div class="header" style="display: flex; align-items: center; justify-content: center; gap: 24px; position: relative;">
+    <div class="dropdown" style="position: absolute; left: 0;">
+      <div class="menu-icon" onclick="toggleDropdown(this)">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="dropdown-content" id="dropdownMenu">
+        <a href="C:\Users\andra\Desktop\Kristály Fukarság\PC\products.html">Products</a>
+        <a href="C:\Users\andra\Desktop\Kristály Fukarság\PC\constructor.html">Constructor</a>
+        <a href="C:\Users\andra\Desktop\Kristály Fukarság\PC\about_us.html">About Us</a>
+      </div>
+    </div>
+    <!--(.)(.)-->
+        <h1 class="header-text" style="margin: 0;">Orion Crystals</h1>
+    </div>
+    <div class="bg-img">
+      <form action="login.php" method="post">
+        <div class="a4-sheet login-bg" style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
+          <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px;">
+            <h2 style="margin-bottom: 24px; font-family: 'Playwrite AU QLD', cursive; font-size: 2em; color: #B68D40; text-align: center;">Login to Orion Crystals</h2>
+            <input type="text" name="username" placeholder="Username" style="margin-bottom: 18px; padding: 12px 18px; border-radius: 8px; border: 1px solid #ccc; font-size: 1.1em; width: 320px; text-align: center;">
+            <input type="password" name="password" placeholder="Password" style="margin-bottom: 24px; padding: 12px 18px; border-radius: 8px; border: 1px solid #ccc; font-size: 1.1em; width: 320px; text-align: center;">
+            <div style="margin-top: 8px; margin-bottom: 18px; font-size: 1em;">
+              <label style="display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox" required>
+                I accept the <a href="aszf.html" target="_blank" style="color: #045bdd; text-decoration: underline;">ÁSZF</a>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+                <input type="checkbox" required>
+                I accept the <a href="adat.html" target="_blank" style="color: #045bdd; text-decoration: underline;">Adatkezelési tájékoztató</a>
+              </label>
+            </div>
+            <div style="display: flex; gap: 18px; justify-content: center;">
+              <button class="buy-btn" type="submit" style="width: 140px;">Login</button>
+              <button class="buy-btn" type="button" style="width: 140px;" onclick="window.location.href='register.html'">Register</button>
+            </div>
+          </div>
+          <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px;">
+            <img src="../images/ChatGPT Image 2025. aug. 14. 13_12_25.png" alt="Bracelet" style="width: 600px; height: 600px; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.18); object-fit: cover;">
+          </div>
+        </div>
+      </form>
+    </div>
+</body>
+</html>

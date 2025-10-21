@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" href="main.css">
+    <script src="script.js"></script>
+    <script src="product_scrpt.js"></script>
+    <link rel="icon" type="image/png" sizes="14x22" href="Screenshot 2025-08-12 142558.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+AU+QLD:wght@100..400&display=swap" rel="stylesheet">
+    <title>Orion Crystals</title>
+</head>
+<body>
+    <div class="header" style="display: flex; align-items: center; justify-content: center; gap: 24px; position: relative;">
+    <div class="dropdown" style="position: absolute; left: 0;">
+      <div class="menu-icon" onclick="toggleDropdown(this)">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="dropdown-content" id="dropdownMenu">
+         <a href="index.html">Home</a>
+          <a href="products.html">Products</a>
+          <a href="constructor.html">Constructor</a>
+          <a href="about_us.html">About Us</a>
+      </div>
+    </div>
+        <h1 class="header-text" style="margin: 0;">Orion Crystals</h1>
+        <div class="login-mini-banner" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 18px;">
+  <a href="checkout.html" class="cart-icon-container" title="View Cart" style="display: flex; align-items: center; background: #fff; border-radius: 50%; padding: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.10); margin-right: 8px;">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+      <circle cx="9" cy="21" r="1.5" fill="#111"/>
+      <circle cx="17" cy="21" r="1.5" fill="#111"/>
+      <path d="M3 3h2l.4 2M7 13h10l4-8H5.4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+  <a href="login.html" class="login-icon-container">
+    <div class="login-icon">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="14" r="7" fill="#fafafa" stroke="#111" stroke-width="2"/>
+        <rect x="8" y="26" width="24" height="10" rx="8" fill="#111" stroke="#fafafa" stroke-width="2"/>
+      </svg>
+    </div>
+  </a>
+</div>
+    </div>
+    <div class="product-detail-container">
+    <div class="product-detail-left">
+      <img src="ChatGPT Image 2025. aug. 12. 10_54_18.png" alt="Crystal Amethyst" class="product-detail-img">
+    </div>
+    <div class="product-detail-right">
+      <div class="product-detail-desc1">This exquisite amethyst crystal is renowned for its deep purple hue and clarity. Perfect for collectors and those seeking positive energy. Only one left in stock!</div>
+      <h2 class="product-detail-title1">Mondom hogy én csináltam</h2>
+
+      <!-- ADDED: bracelet size chooser -->
+      <label for="size-select" class="size-label" style="display:block;margin:8px 0 4px;font-weight:600;">Size (cm)</label>
+      <select id="size-select" class="size-select" aria-label="Choose bracelet size">
+        <option value="" disabled selected>Select size</option>
+        <option>16</option>
+        <option>17</option>
+        <option>18</option>
+        <option>19</option>
+        <option>20</option>
+        <option>21</option>
+        <option>22</option>
+        <option>23</option>
+      </select>
+
+      <div class="product-detail-price">6969 HUF</div>
+      <div class="product-detail-quantity">
+        <button class="qty-btn" onclick="decreaseQty()">-</button>
+        <span id="qty-value">1</span>
+        <button class="qty-btn" onclick="increaseQty()">+</button>
+      </div>
+      <button class="buy-btn" onclick="addToCheckout()">Add to Cart</button>
+      <div class="product-detail-badge">
+  <span class="banner-text">  LAST PIECE! LAST PIECE! LAST PIECE! LAST PIECE! LAST PIECE! LAST PIECE! LAST PIECE!  LAST PIECE! LAST PIECE! LAST PIECE! LAST PIECE! LAST PIECE! LAST PIECE! LAST PIECE! LAST PIECE! LAST PIECE! LAST PIECE! LAST PIECE!</span>
+</div>
+  </div>
+  <script src="product_scrpt.js"></script>
+  <script>
+function addToCheckout() {
+  // read product name and price as before
+  var name = document.querySelector('.product-detail-title1, .product-detail-title2, .product-detail-title3, .product-detail-title4, .product-detail-title5, .product-detail-title6, .product-detail-title7, .product-detail-title8, .product-detail-title9, .product-detail-title10, .product-detail-title11, .product-detail-title12')?.textContent || 'Bracelet';
+  var priceText = document.querySelector('.product-detail-price')?.textContent || '0 HUF';
+  var price = parseInt(priceText.replace(/[^\d]/g, '')) || 0;
+  var img = document.querySelector('.product-detail-img')?.getAttribute('src') || '';
+  var qty = parseInt(document.getElementById('qty-value')?.textContent) || 1;
+
+  // NEW: read selected size and validate
+  var sizeSelect = document.getElementById('size-select');
+  var size = sizeSelect ? sizeSelect.value : '';
+  if (!size) {
+    // simple alert if size not chosen
+    alert('Please select a bracelet size (16–23 cm) before adding to cart.');
+    sizeSelect.focus();
+    return;
+  }
+
+  // cart stored per item+size to avoid merging different sizes
+  var cart = JSON.parse(localStorage.getItem('checkoutCart') || '[]');
+  var idx = cart.findIndex(item => item.name === name && item.size === size);
+  if (idx >= 0) {
+    cart[idx].qty += qty;
+  } else {
+    cart.push({ name, price, img, qty, size });
+  }
+  localStorage.setItem('checkoutCart', JSON.stringify(cart));
+  // Do NOT redirect here!
+  document.getElementById('cart-popup').style.display = 'flex';
+}
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('stay-shopping-btn').onclick = function() {
+    document.getElementById('cart-popup').style.display = 'none';
+  };
+  document.getElementById('go-checkout-btn').onclick = function() {
+    window.location.href = 'checkout.html';
+  };
+});
+</script>
+</div>
+<div id="cart-popup" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.35); z-index:999; align-items:center; justify-content:center;">
+  <div style="background:#fff; color:#111; border-radius:16px; padding:32px 40px; box-shadow:0 8px 32px rgba(44,62,80,0.18); text-align:center;">
+    <div style="font-size:1.3em; margin-bottom:18px;">Item added to cart!</div>
+    <button class="cart-popup-btn" id="stay-shopping-btn">Stay shopping</button>
+    <button class="cart-popup-btn" id="go-checkout-btn">Go to checkout</button>
+  </div>
+</div>
+    <footer class="footer" style="display: flex; align-items: center; justify-content: center; gap: 18px;">
+        <p style="margin: 0;">&copy; 2025 Orion Crystals. All rights reserved.</p>
+        <span style="margin-left: 24px; font-weight: 500;">We support</span>
+        <img src="https://www.paypalobjects.com/webstatic/icon/pp258.png" alt="PayPal" style="height: 28px; margin-left: 8px;">
+        <img src="https://simplepay.hu/wp-content/themes/simplepay_new/images/logo-color2.svg" alt="SimplePay" style="height: 28px; margin-left: 8px;">
+    </footer>
+</body>
+</html>

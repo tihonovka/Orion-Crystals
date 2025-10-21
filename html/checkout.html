@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="main.css">
+  <script src="script.js"></script>
+  <link rel="icon" type="image/png" sizes="14x22" href="Screenshot 2025-08-12 142558.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playwrite+AU+QLD:wght@100..400&display=swap" rel="stylesheet">
+  <title>Checkout | Orion Crystals</title>
+  <style>
+    .checkout-cart-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-bottom: 32px;
+    }
+    .checkout-cart-row {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+      padding: 18px 24px;
+      max-height: 150px;
+      min-height: 110px;
+      gap: 24px;
+      position: relative;
+    }
+    .checkout-cart-img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-right: 18px;
+    }
+    .checkout-cart-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .checkout-cart-title {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .checkout-cart-price {
+      font-size: 1.1em;
+      background: linear-gradient(90deg, #111, #181818, #1C1C1C);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+      font-weight: 600;
+    }
+    .checkout-cart-qty {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .qty-btn {
+      background: #111;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      width: 32px;
+      height: 32px;
+      font-size: 1.2em;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .qty-btn:hover {
+      background: #fff;
+      color: #181818;
+    }
+    .checkout-cart-trash {
+      margin-left: 18px;
+      cursor: pointer;
+      font-size: 1.5em;
+      color: #B76E79;
+      transition: color 0.2s;
+    }
+    .checkout-cart-trash:hover {
+      color: #E0115F;
+    }
+    .checkout-total {
+      font-size: 1.3em;
+      font-weight: bold;
+      background: linear-gradient(90deg, #111, #181818, #1C1C1C);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+      margin-bottom: 24px;
+      text-align: right;
+    }
+    .checkout-payment-mode {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 18px;
+    }
+    .payment-btn {
+      background: #111;
+      color: #fff;
+      border: none;
+      border-radius: 18px;
+      padding: 12px 28px;
+      font-size: 1em;
+      cursor: pointer;
+      font-family: 'Playwrite AU QLD', cursive;
+      font-weight: 600;
+      transition: background 0.2s, color 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+    .payment-btn.active {
+      background: #111;
+      color: #fff;
+    }
+    .payment-btn:hover {
+      background: #fff;
+      color: #111;
+    }
+    .credit-card-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 18px;
+      max-width: 340px;
+    }
+    .credit-card-fields input {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+    }
+    .pay-btn {
+      background: linear-gradient(90deg, #111, #181818, #1C1C1C);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 36px;
+      font-size: 1.1em;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      transition: background 0.2s, color 0.2s;
+      margin-top: 8px;
+    }
+    .pay-btn:hover {
+      background: #fff;
+      background: linear-gradient(90deg, #111, #181818, #1C1C1C);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+      border: 1px solid #000000;
+    }
+    #paypal-container {
+      margin-top: 18px;
+      max-width: 340px;
+    }
+
+    /* show chosen size under product title */
+    .checkout-cart-size {
+      font-size: 0.95em;
+      color: #666;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+    <div class="header" style="display: flex; align-items: center; justify-content: center; gap: 24px; position: relative;">
+      <div class="dropdown" style="position: absolute; left: 0;">
+        <div class="menu-icon" onclick="toggleDropdown(this)">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="dropdown-content" id="dropdownMenu"> 
+           <a href="index.html">Home</a>
+          <a href="products.html">Products</a>
+          <a href="constructor.html">Constructor</a>
+          <a href="about_us.html">About Us</a>
+        </div>
+      </div>
+      <h1 class="header-text" style="margin: 0;">Orion Crystals</h1>
+      <div class="login-mini-banner" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 18px;">
+  <!-- Shopping cart icon button -->
+  <a href="checkout.html" class="cart-icon-container" title="View Cart" style="display: flex; align-items: center; background: #fff; border-radius: 50%; padding: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.10); margin-right: 8px;">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+      <circle cx="9" cy="21" r="1.5" fill="#111"/>
+      <circle cx="17" cy="21" r="1.5" fill="#111"/>
+      <path d="M3 3h2l.4 2M7 13h10l4-8H5.4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+  <!-- Login icon button -->
+  <a href="login.html" class="login-icon-container">
+    <div class="login-icon">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="14" r="7" fill="#fafafa" stroke="#111" stroke-width="2"/>
+        <rect x="8" y="26" width="24" height="10" rx="8" fill="#111" stroke="#fafafa" stroke-width="2"/>
+      </svg>
+    </div>
+  </a>
+</div>
+    </div>
+  <div class="container" style="max-width: 900px; margin: 40px auto;">
+    <h1 style="margin-bottom: 32px; text-align: center; font-family: 'Playwrite AU QLD', cursive; background: linear-gradient(90deg, #C0C0C0 0%, #E5E4E2 25%, #045bdd 75%, #E0BFB8 100%);background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;">Checkout</h1>
+    <div id="cart-list" class="checkout-cart-list"></div>
+    <div class="checkout-total" id="cart-total"></div>
+    <div class="checkout-payment-mode">
+      <button id="creditCardBtn" class="payment-btn active">
+        <span style="margin-right:8px;">💳</span>Credit Card
+      </button>
+      <button id="paypalBtn" class="payment-btn" style="background:#111; color:#fff; font-family:'Playwrite AU QLD',cursive; display:flex; align-items:center;">
+        <img src="https://www.paypalobjects.com/webstatic/icon/pp258.png" alt="PayPal" style="height:22px; margin-right:8px; filter: grayscale(1);">
+        PayPal
+      </button>
+    </div>
+    <div id="credit-card-fields" class="credit-card-fields">
+      <input type="text" placeholder="Name on Card" id="cc-name">   
+      <input type="text" placeholder="Card Number" id="cc-number" maxlength="19">
+      <input type="text" placeholder="Expiry (MM/YY)" id="cc-expiry" maxlength="5">
+      <input type="text" placeholder="CVC" id="cc-cvc" maxlength="4">
+      <button class="pay-btn" id="payBtn">Pay</button>
+    </div>
+    <div id="paypal-container" style="display:none;"></div>
+    <div id="paypal-button-container" style="display:none; margin-top:10px;"></div>
+  </div>
+  <script src="https://www.paypal.com/sdk/js?client-id=AbaHRAQD86hw2hl2vl115JUdpsS3j41Kb5_JILGYmTCu_dBj21fOJuggMNFBTwsvmd0JtWujXs3X4pJ_&currency=HUF"></script>
+  <script src="paypal.js"></script>
+  <script>
+    // --- Cart logic ---
+    function getCart() {
+      return JSON.parse(localStorage.getItem('checkoutCart') || '[]');
+    }
+    function setCart(cart) {
+      localStorage.setItem('checkoutCart', JSON.stringify(cart));
+    }
+    function renderCart() {
+      const cartList = document.getElementById('cart-list');
+      const cart = getCart();
+      cartList.innerHTML = '';
+      let total = 0;
+      cart.forEach((item, idx) => {
+        total += item.price * item.qty;
+        const row = document.createElement('div');
+        row.className = 'checkout-cart-row';
+        row.innerHTML = `
+          <img src="${item.img || ''}" class="checkout-cart-img" alt="${item.name || 'Product'}">
+          <div class="checkout-cart-info">
+            <div class="checkout-cart-title">${item.name || 'Product'}</div>
+            <div class="checkout-cart-size">${item.size ? 'Size: ' + item.size + ' cm' : 'Size: —'}</div>
+            <div class="checkout-cart-price">${item.price} HUF</div>
+            <div class="checkout-cart-qty">
+              <button class="qty-btn" data-action="dec" data-idx="${idx}">-</button>
+              <span>${item.qty}</span>
+              <button class="qty-btn" data-action="inc" data-idx="${idx}">+</button>
+            </div>
+          </div>
+          <button class="remove-btn" data-idx="${idx}" title="Remove">
+            <svg class="remove-x" width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <line x1="7" y1="7" x2="21" y2="21" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+              <line x1="21" y1="7" x2="7" y2="21" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </button>
+        `;
+        cartList.appendChild(row);
+      });
+      document.getElementById('cart-total').textContent = 'Total: ' + total + ' HUF';
+    }
+    // --- Kosárban tevekenységek(adatok) ---
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('qty-btn')) {
+        const idx = +e.target.getAttribute('data-idx');
+        const action = e.target.getAttribute('data-action');
+        const cart = getCart();
+        if (!cart[idx]) return;
+        if (action === 'inc') cart[idx].qty++;
+        if (action === 'dec' && cart[idx].qty > 1) cart[idx].qty--;
+        setCart(cart);
+        renderCart();
+      }
+      if (e.target.closest('.remove-btn')) {
+        const btn = e.target.closest('.remove-btn');
+        const idx = +btn.getAttribute('data-idx');
+        const cart = getCart();
+        if (!Number.isFinite(idx) || !cart[idx]) return;
+        cart.splice(idx, 1);
+        setCart(cart);
+        renderCart();
+      }
+    });
+    // --- fizetési mód logikaja aka paypal, ugyan az ami a paypal.js be van csak itt az van hogy az árát a kosarnak beirja a js scriptbe és igy a apypal tudja mennyit lopjon le ---
+    const creditCardBtn = document.getElementById('creditCardBtn');
+    const paypalBtn = document.getElementById('paypalBtn');
+    const ccFields = document.getElementById('credit-card-fields');
+    const paypalContainer = document.getElementById('paypal-container');
+    const paypalButtonContainer = document.getElementById('paypal-button-container');
+    creditCardBtn.addEventListener('click', function() {
+      creditCardBtn.classList.add('active');
+      paypalBtn.classList.remove('active');
+      ccFields.style.display = 'flex';
+      paypalContainer.style.display = 'none';
+      paypalButtonContainer.style.display = 'none';
+    });
+document.querySelectorAll('.payment-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('.payment-btn').forEach(function(b) {
+            b.classList.remove('active');
+        });
+        btn.classList.add('active');
+        document.getElementById('payment_mode').value = btn.getAttribute('data-mode');
+        document.getElementById('credit-card-fields').style.display = btn.getAttribute('data-mode') === 'Credit Card' ? 'block' : 'none';
+        if (document.getElementById('paypal-button-container')) {
+            document.getElementById('paypal-button-container').style.display = btn.getAttribute('data-mode') === 'PayPal' ? 'block' : 'none';
+        }
+    });
+});
+    // --- Bankártya fizetés ---
+    document.getElementById('payBtn').addEventListener('click', function() {
+      alert('Credit card payment submitted! (Demo only)');
+    });
+    // PayPal gomb lodzsik
+  function showPayPalButton() {
+    document.getElementById('credit-card-fields').style.display = 'none';
+    document.getElementById('paypal-button-container').style.display = 'block';
+
+    // egyszer renderelje le a paypal gombot, és ne minig ujra
+    if (!window.paypalBtnRendered) {
+      window.paypalBtnRendered = true;
+      paypal.Buttons({
+        style: {
+          layout: 'vertical',
+          color:  'gold',
+          shape:  'rect',
+          label:  'paypal'
+        },
+        createOrder: function(data, actions) {
+          // ez a szar irja be az árat a paypalba
+          const cart = JSON.parse(localStorage.getItem('checkoutCart') || '[]');
+          let total = 0;
+          cart.forEach(item => total += item.price * item.qty);
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: total.toString() || '1.00',
+                currency_code: 'HUF'
+              }
+            }]
+          });
+        },
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+            alert('Payment completed by ' + details.payer.name.given_name + '!');
+            // ide lehet me adni sok mindett
+          });
+        }
+      }).render('#paypal-button-container');
+    }
+  }
+
+  // ez a cucc azert feleös hogy a paypal gombot megjelenitse
+  document.getElementById('paypalBtn').addEventListener('click', function() {
+    showPayPalButton();
+  });
+
+  document.getElementById('creditCardBtn').addEventListener('click', function() {
+    document.getElementById('credit-card-fields').style.display = 'flex';
+    document.getElementById('paypal-button-container').style.display = 'none';
+  });
+
+    // renderli a kosarat
+    renderCart();
+  </script>
+</body>
+</html>

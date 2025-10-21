@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <script src="script.js"></script>
+    <script src="product_scrpt.js"></script>
+    <link rel="icon" type="image/png" sizes="14x22" href="Screenshot 2025-08-12 142558.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+AU+QLD:wght@100..400&display=swap" rel="stylesheet">
+    <title>Orion Crystals</title>
+</head>
+<body>
+    <div class="header" style="display: flex; align-items: center; justify-content: center; gap: 24px; position: relative;">
+    <div class="dropdown" style="position: absolute; left: 0;">
+      <div class="menu-icon" onclick="toggleDropdown(this)">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="dropdown-content" id="dropdownMenu">
+         <a href="index.html">Home</a>
+          <a href="products.html">Products</a>
+          <a href="constructor.html">Constructor</a>
+          <a href="about_us.html">About Us</a>
+      </div>
+    </div>
+        <h1 class="header-text" style="margin: 0;">Orion Crystals</h1>
+        <div class="login-mini-banner" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 18px;">
+          <a href="checkout.html" class="cart-icon-container" title="View Cart" style="display: flex; align-items: center; background: #fff; border-radius: 50%; padding: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.10); margin-right: 8px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <circle cx="9" cy="21" r="1.5" fill="#111"/>
+              <circle cx="17" cy="21" r="1.5" fill="#111"/>
+              <path d="M3 3h2l.4 2M7 13h10l4-8H5.4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="login.html" class="login-icon-container">
+            <div class="login-icon">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="14" r="7" fill="#fafafa" stroke="#111" stroke-width="2"/>
+                <rect x="8" y="26" width="24" height="10" rx="8" fill="#111" stroke="#fafafa" stroke-width="2"/>
+              </svg>
+            </div>
+          </a>
+        </div>
+    </div>
+    <div class="product-detail-container">
+    <div class="product-detail-left">
+      <img src="ChatGPT Image 2025. aug. 13. 10_20_02.png" alt="Pantera Bracelet" class="product-detail-img">
+    </div>
+
+    <div class="product-detail-right">
+      <div class="product-detail-desc4">Citrine is known for its vibrant energy and prosperity. A beautiful addition to any collection.</div>
+      <h2 class="product-detail-title4">Pantera Bracelet</h2>
+
+      <label class="size-label" for="size-select-4">Size (cm)</label>
+      <div class="size-select-wrap">
+        <select id="size-select-4" class="size-select" aria-label="Choose bracelet size">
+          <option value="" disabled selected>Choose size</option>
+          <option value="16">16 cm</option>
+          <option value="17">17 cm</option>
+          <option value="18">18 cm</option>
+          <option value="19">19 cm</option>
+          <option value="20">20 cm</option>
+          <option value="21">21 cm</option>
+          <option value="22">22 cm</option>
+          <option value="23">23 cm</option>
+        </select>
+      </div>
+
+      <div class="product-detail-price">4 200 HUF</div>
+
+      <div class="product-detail-quantity">
+        <button class="qty-btn" id="qty-dec-4" aria-label="Decrease quantity">-</button>
+        <span id="qty-value-4" class="qty-value">1</span>
+        <button class="qty-btn" id="qty-inc-4" aria-label="Increase quantity">+</button>
+      </div>
+
+      <button class="buy-btn" id="buy-4">Add to Cart</button>
+
+      <div class="product-detail-badge">
+        <span class="banner-text">LAST PIECE! LAST PIECE! LAST PIECE!</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup Modal (clean markup + ARIA) -->
+  <div id="cart-popup" class="cart-popup" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="cart-popup-title">
+    <div class="cart-popup-inner" role="document">
+      <div id="cart-popup-title" class="cart-popup-title">Item added to cart</div>
+      <div id="cart-popup-summary" class="cart-popup-summary" aria-live="polite"></div>
+      <div class="cart-popup-actions">
+        <button id="stay-shopping-btn" class="cart-popup-btn">Stay shopping</button>
+        <button id="go-checkout-btn" class="cart-popup-btn cart-popup-primary">Go to checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+(function(){
+  document.addEventListener('DOMContentLoaded', function(){
+    var popup = document.getElementById('cart-popup');
+    if(!popup) return;
+    if(popup.dataset.init === '1') return; // already initialized
+    popup.dataset.init = '1';
+
+    // Ensure popup is a direct child of body and reset any inline styles
+    try { if(popup.parentNode !== document.body) document.body.appendChild(popup); } catch(e){}
+    ['display','left','right','top','bottom','position','margin'].forEach(function(p){ try{ popup.style[p]=''; }catch(e){} });
+    popup.classList.remove('open');
+    popup.setAttribute('aria-hidden','true');
+
+    // Elements
+    var buyBtn = document.getElementById('buy-4');
+    var decBtn = document.getElementById('qty-dec-4');
+    var incBtn = document.getElementById('qty-inc-4');
+    var qtyEl  = document.getElementById('qty-value-4');
+    var sizeSel = document.getElementById('size-select-4');
+    var summary = document.getElementById('cart-popup-summary');
+    var stayBtn = document.getElementById('stay-shopping-btn');
+    var goBtn   = document.getElementById('go-checkout-btn');
+
+    function getQty(){ return Math.max(1, parseInt(qtyEl?.textContent || '1', 10)); }
+    function setQty(n){ if(qtyEl) qtyEl.textContent = String(Math.max(1, Math.floor(n))); }
+
+    // Defensive populate sizes if missing
+    if(sizeSel && sizeSel.children.length <= 1){
+      for(var s=16;s<=23;s++){ var o=document.createElement('option'); o.value=String(s); o.textContent=s+' cm'; sizeSel.appendChild(o); }
+    }
+
+    // Buttons
+    decBtn && decBtn.addEventListener('click', function(){ setQty(getQty()-1); });
+    incBtn && incBtn.addEventListener('click', function(){ setQty(getQty()+1); });
+
+    function readCart(){ try{ return JSON.parse(localStorage.getItem('checkoutCart')||'[]'); }catch(e){ return []; } }
+    function writeCart(c){ try{ localStorage.setItem('checkoutCart', JSON.stringify(c)); }catch(e){} }
+
+    function showPopup(text){
+      if(summary) summary.textContent = text || '';
+      popup.classList.add('open');
+      popup.setAttribute('aria-hidden','false');
+      document.documentElement.style.overflow = 'hidden';
+      (stayBtn || goBtn)?.focus?.();
+    }
+    function hidePopup(){
+      popup.classList.remove('open');
+      popup.setAttribute('aria-hidden','true');
+      document.documentElement.style.overflow = '';
+    }
+
+    buyBtn && buyBtn.addEventListener('click', function(){
+      var name = (document.querySelector('.product-detail-title4')?.textContent || 'Product').trim();
+      var priceText = (document.querySelector('.product-detail-price')?.textContent || '0');
+      var price = parseInt(String(priceText).replace(/[^\d]/g,''),10) || 0;
+      var img = document.querySelector('.product-detail-img')?.getAttribute('src') || '';
+      var qty = getQty();
+      var size = sizeSel ? sizeSel.value : '';
+
+      if(sizeSel && !size){
+        sizeSel.focus();
+        sizeSel.classList.add('size-select-error');
+        setTimeout(function(){ sizeSel.classList.remove('size-select-error'); },700);
+        return;
+      }
+
+      var cart = readCart();
+      var idx = cart.findIndex(function(it){ return it.id === 'product4' && String(it.size) === String(size); });
+      if(idx >= 0) cart[idx].qty = (cart[idx].qty || 0) + qty;
+      else cart.push({ id:'product4', name:name, price:price, img:img, qty:qty, size:size });
+      writeCart(cart);
+
+      showPopup(name + ' — ' + size + ' cm × ' + qty);
+    });
+
+    stayBtn && stayBtn.addEventListener('click', hidePopup);
+    goBtn && goBtn.addEventListener('click', function(){ window.location.href = 'checkout.html'; });
+
+    // close on overlay click or Esc
+    popup.addEventListener('click', function(e){ if(e.target === popup) hidePopup(); });
+    document.addEventListener('keydown', function(e){ if((popup.classList.contains('open') || popup.getAttribute('aria-hidden') === 'false') && e.key === 'Escape') hidePopup(); });
+  });
+})();
+</script>
+</body>
+</html>
